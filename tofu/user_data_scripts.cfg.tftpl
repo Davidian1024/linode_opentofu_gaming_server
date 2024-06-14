@@ -1,0 +1,111 @@
+#cloud-config
+
+packages:
+  - xvfb
+  - debconf-utils
+  - wine
+
+users:
+  - name: game_service_account
+    groups: sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+
+write_files:
+  - path: /var/cache/custom_provisioning_script.bash
+    owner: root:root
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      #
+      # Script body start
+      echo "custom_provisioning_script.bash begin"
+      fallocate -l 16G /swapfile
+      chmod 600 /swapfile
+      mkswap /swapfile
+      swapon /swapfile
+      echo "/swapfile none swap sw 0 0" >> /etc/fstab
+      dpkg --add-architecture i386
+      apt-get update
+      echo steamcmd steam/question select I AGREE | debconf-set-selections
+      DEBIAN_FRONTEND=noninteractive apt-get -y install steamcmd
+      su game_service_account -c "steamcmd +force_install_dir "sons_dedicated" +login anonymous +@sSteamCmdForcePlatformType windows +app_update 2465200 validate +quit"
+      su game_service_account -c "/usr/bin/mkdir -p /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/"
+      cp /tmp/dedicatedserver.cfg /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/
+      cp /tmp/ownerswhitelist.txt /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/
+      chown game_service_account:game_service_account /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/dedicatedserver.cfg
+      echo "custom_provisioning_script.bash end"
+      # Script body end
+
+  - path: /etc/systemd/system/xvfb.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=X Virtual Frame Buffer Service
+      After=network.target
+
+      [Service]
+      ExecStart=/usr/bin/Xvfb :1
+      User=game_service_account
+      Group=game_service_account
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+  - path: /etc/systemd/system/sotfds.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Sons of the Forest Dedicated Server
+      After=xvfb.service
+
+      [Service]
+      WorkingDirectory=/home/game_service_account/.local/share/Steam/steamcmd/sons_dedicated
+      Environment=DISPLAY=:1.0
+      ExecStart=wine ./SonsOfTheForestDS.exe
+      User=game_service_account
+      Group=game_service_account
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+  - path: /tmp/dedicatedserver.cfg
+    permissions: '0644'
+    content: |
+      {
+        "IpAddress": "0.0.0.0",
+        "GamePort": 8766,
+        "QueryPort": 27016,
+        "BlobSyncPort": 9700,
+        "ServerName": "${server_name}",
+        "MaxPlayers": 8,
+        "Password": "${password}",
+        "LanOnly": false,
+        "SaveSlot": 1,
+        "SaveMode": "Continue",
+        "GameMode": "Normal",
+        "SaveInterval": 600,
+        "IdleDayCycleSpeed": 0.0,
+        "IdleTargetFramerate": 5,
+        "ActiveTargetFramerate": 60,
+        "LogFilesEnabled": false,
+        "TimestampLogFilenames": true,
+        "TimestampLogEntries": true,
+        "SkipNetworkAccessibilityTest": false,
+        "GameSettings": {},
+        "CustomGameModeSettings": {}
+      }
+
+  - path: /tmp/ownerswhitelist.txt
+    permissions: '0644'
+    content: |
+      # In order to be able to administrate your server from in game directly, you will need to setup server ownership.
+      # Add below the steam ids of every server owner, one steam id per line.
+      # To find your SteamID, open Steam and click on your name on the top right, then go to Account Details.
+      # You can use # to comment out a line. That can be helpful to keep track of SteamIDs, you can include their name in the line above or below, starting with a #
+
+      ${server_admin_steamid}
