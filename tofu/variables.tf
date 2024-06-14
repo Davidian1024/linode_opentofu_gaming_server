@@ -22,3 +22,8 @@ variable "server_admin_steamid" {
   type        = string
   description = "Steam ID of game server admin."
 }
+
+variable "admin_ssh_ip" {
+  type        = string
+  description = "IP address from which SSH connections will be allowed through firewall."
+}

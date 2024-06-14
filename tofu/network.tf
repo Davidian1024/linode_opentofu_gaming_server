@@ -17,7 +17,7 @@ resource "linode_firewall" "gaming_server" {
     action   = "ACCEPT"
     protocol = "TCP"
     ports    = "22"
-    ipv4     = ["75.76.41.228/32"]
+    ipv4     = ["${var.admin_ssh_ip}/32"]
   }
 
   inbound {
