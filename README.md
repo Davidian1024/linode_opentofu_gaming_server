@@ -6,7 +6,8 @@ Was created on an Ubuntu 22.04.4 machine with OpenTofu v1.7.2.
 
 Expects the following environment variables to be set:
 
-`export TF_VAR_server_admin_steamid='#################'  # Players whose SteamIDs are provided will be granted game server admin rights.  Separated by newlines.
+```
+export TF_VAR_server_admin_steamid='#################'  # Players whose SteamIDs are provided will be granted game server admin rights.  Separated by newlines.
 
 export TF_VAR_server_name='linode_opentofu_gaming_server'  # The name that will be displayed in the dedicated server list.
 
@@ -16,4 +17,5 @@ export TF_VAR_root_pass='instance_root_password'  # A password for accessing the
 
 export TF_VAR_authorized_keys='ssh-rsa ...'  # SSH public keys that will allow root access.  Separated by newlines.
 
-export LINODE_TOKEN=527de3fd9d5fa47da9a63af2aff9356bef18f9a07a91d20ec1ea72f720024063  # A Linode API token that will allow OpenTofu to connect to Linode and deploy the resources.`
+export LINODE_TOKEN=527de3fd9d5fa47da9a63af2aff9356bef18f9a07a91d20ec1ea72f720024063  # A Linode API token that will allow OpenTofu to connect to Linode and deploy the resources.
+```
