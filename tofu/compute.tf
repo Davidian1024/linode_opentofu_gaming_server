@@ -8,6 +8,29 @@ resource "linode_instance" "gaming_server" {
 
   private_ip = true
 
+  connection {
+    type     = "ssh"
+    user     = "root"
+    password = var.root_pass
+    host     = self.ip_address
+    timeout  = "4m"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Waiting for cloud-init to finish...'",
+      "cloud-init status --format yaml --wait",
+      "echo 'cloud-init finished.'",
+      "echo 'Starting xvfb.service...'",
+      "systemctl start xvfb.service",
+      "echo 'xvfb.service started.'",
+      "echo 'Starting sotfds.service...'",
+      "systemctl start sotfds.service",
+      "echo 'sotfds.service started.'",
+    ]
+    on_failure = continue
+  }
+
   metadata {
     user_data = data.cloudinit_config.gaming_server.rendered
   }
