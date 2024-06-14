@@ -34,6 +34,9 @@ write_files:
       cp /tmp/dedicatedserver.cfg /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/
       cp /tmp/ownerswhitelist.txt /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/
       chown game_service_account:game_service_account /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/dedicatedserver.cfg
+      sleep 10
+      systemctl start xvfb
+      systemctl start sotfds
       echo "custom_provisioning_script.bash end"
       # Script body end
 
