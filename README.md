@@ -18,4 +18,6 @@ export TF_VAR_root_pass='instance_root_password'  # A password for accessing the
 export TF_VAR_authorized_keys='ssh-rsa ...'  # SSH public keys that will allow root access.  Separated by newlines.
 
 export LINODE_TOKEN=527de3fd9d5fa47da9a63af2aff9356bef18f9a07a91d20ec1ea72f720024063  # A Linode API token that will allow OpenTofu to connect to Linode and deploy the resources.
+
+export TF_VAR_admin_ssh_ip='###.###.###.###'  # IP address from which SSH connections will be allowed through firewall.
 ```
