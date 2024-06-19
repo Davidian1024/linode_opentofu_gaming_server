@@ -90,7 +90,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform.tfstate
-          path: ./tofu/terraform.tfstate
+          path: ./terraform.tfstate_temp
+
+      - name: ls
+        run: ls ./terraform.tfstate_temp
+
+      - name: Extract OpenTofu State
+        run: 7z x ./terraform.tfstate_temp/*
 
       - name: Destroy
         working-directory: ./tofu
