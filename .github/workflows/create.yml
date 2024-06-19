@@ -14,9 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
+
+      - name: Obtain Run ID
+        id: obtain-run-id
+        run: |
+          WF_NAME="Test"
+          RUN_ID=`gh run list --workflow ${WF_NAME} --json databaseId --jq .[0].databaseId`
+          echo "Detected latest run id of ${RUN_ID} for workflow ${WF_NAME}"
+          echo "run-id=${RUN_ID}" >> "$GITHUB_OUTPUT"
+
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
+          run-id: ${{ steps.obtain-run-id.outputs.run-id }}
           name: tfstate
           path: |
             ./tofu/terraform.tfstate
