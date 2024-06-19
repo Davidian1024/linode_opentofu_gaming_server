@@ -22,17 +22,10 @@ jobs:
           echo "The job was triggered by a ${{ github.event_name }} event."
           echo "The operating system this job is now running on is ${{ runner.os }}."
           echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-          echo "The environment is ${{ runner.environment }}"
+          echo "The runner environment is ${{ runner.environment }}"
 
-      - name: Check out repository code
+      - name: Repository Code Checkout
         uses: actions/checkout@v4
-
-      - name: Clone Repository
-        run: echo "The ${{ github.repository }} repository has been cloned to the runner."
-
-      - name: Repository Listing
-        run: |
-          ls ${{ github.workspace }}
 
       - name: Install OpenTofu
         run: |
@@ -43,31 +36,6 @@ jobs:
       - name: Initialize
         working-directory: ./tofu
         run: tofu init
-
-      # # Insecure
-      # - name: List Secrets
-      #   env:
-      #     TF_VAR_server_admin_steamid: ${{ secrets.TF_VAR_server_admin_steamid }}
-      #     TF_VAR_server_name: ${{ secrets.TF_VAR_server_name }}
-      #     TF_VAR_password: ${{ secrets.TF_VAR_password }}
-      #     TF_VAR_root_pass: ${{ secrets.TF_VAR_root_pass }}
-      #     TF_VAR_authorized_keys: ${{ secrets.TF_VAR_authorized_keys }}
-      #     LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-      #     TF_VAR_admin_ssh_ip: ${{ secrets.TF_VAR_admin_ssh_ip }}
-      #   run: |
-      #     echo "TF_VAR_server_admin_steamid:" $TF_VAR_server_admin_steamid
-      #     echo "TF_VAR_server_name:" $TF_VAR_server_name
-      #     echo "TF_VAR_password:" $TF_VAR_password
-      #     echo "TF_VAR_root_pass:" $TF_VAR_root_pass
-      #     echo "TF_VAR_authorized_keys:" $TF_VAR_authorized_keys
-      #     echo "LINODE_TOKEN:" $LINODE_TOKEN
-      #     echo "TF_VAR_admin_ssh_ip:" $TF_VAR_admin_ssh_ip
-
-      # # Unnecessary
-      # - name: GitHub Context Dump
-      #   env:
-      #     GITHUB_CONTEXT: ${{ toJson(github) }}
-      #   run: echo "$GITHUB_CONTEXT"
 
       - name: Plan Deployment
         working-directory: ./tofu
@@ -93,9 +61,6 @@ jobs:
           TF_VAR_admin_ssh_ip: ${{ secrets.TF_VAR_admin_ssh_ip }}
         run: tofu apply plan_file
 
-      - name: Relative Directory Listing
-        run: ls -lR .
-
       - name: Upload OpenTofu State
         uses: actions/upload-artifact@v4
         with:
@@ -103,11 +68,6 @@ jobs:
           path: |
             ./tofu/terraform.tfstate
             ./tofu/terraform.tfstate.backup
-
-      # # Extremely Expensive
-      # - name: Full Path Listing
-      #   working-directory: /
-      #   run: tree
 
       - name: Status
         run: echo "This job's status is ${{ job.status }}."
