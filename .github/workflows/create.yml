@@ -77,6 +77,19 @@ jobs:
     steps:
       - name: Download OpenTofu State
         uses: actions/download-artifact@v4
+          with:
+            path:
+              ./tofu
+
+      - name: Install OpenTofu
+        run: |
+          curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
+          chmod +x install-opentofu.sh
+          ./install-opentofu.sh --install-method standalone
+
+      - name: Initialize
+        working-directory: ./tofu
+        run: tofu init
     
       - name: Destroy
         working-directory: ./tofu
