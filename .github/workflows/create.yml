@@ -12,7 +12,7 @@ on:
 jobs:
   Create:
     runs-on: ubuntu-latest
-    environment: ${{ events.input.environment }}
+    environment: ${{ github.events.input.environment }}
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
