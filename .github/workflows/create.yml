@@ -75,12 +75,6 @@ jobs:
     environment: "${{ inputs.environment }}-destroy"
     needs: Create
     steps:
-      - name: Download OpenTofu State
-        uses: actions/download-artifact@v4
-        with:
-          path:
-            ./tofu
-
       - name: Install OpenTofu
         run: |
           curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
@@ -91,6 +85,12 @@ jobs:
         working-directory: ./tofu
         run: tofu init
     
+      - name: Download OpenTofu State
+        uses: actions/download-artifact@v4
+        with:
+          path:
+            ./tofu
+
       - name: Destroy
         working-directory: ./tofu
         run: tofu destroy -auto-approve
