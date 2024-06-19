@@ -89,8 +89,8 @@ jobs:
       - name: Download OpenTofu State
         uses: actions/download-artifact@v4
         with:
-          path:
-            ./tofu
+          name: terraform.tfstate
+          path: ./tofu/terraform.tfstate
 
       - name: Destroy
         working-directory: ./tofu
