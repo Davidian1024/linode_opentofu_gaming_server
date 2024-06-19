@@ -61,6 +61,11 @@ jobs:
           echo "LINODE_TOKEN:" $LINODE_TOKEN
           echo "TF_VAR_admin_ssh_ip:" $TF_VAR_admin_ssh_ip
 
+      - name: GitHub Context Dump
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Plan Deployment
         working-directory: ./tofu
         env:
