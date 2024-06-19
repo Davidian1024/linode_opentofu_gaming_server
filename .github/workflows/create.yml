@@ -38,5 +38,5 @@ jobs:
         with:
           name: tfstate
           path: |
-            tofu/.terraform.tfstate
-            tofu/.terraform.tfstate.backup
+            ${{ github.workspace }}/tofu/.terraform.tfstate
+            ${{ github.workspace }}/tofu/.terraform.tfstate.backup
