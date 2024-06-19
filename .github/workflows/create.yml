@@ -96,4 +96,12 @@ jobs:
 
       - name: Destroy
         working-directory: ./tofu
+        env:
+          TF_VAR_server_admin_steamid: ${{ secrets.TF_VAR_server_admin_steamid }}
+          TF_VAR_server_name: ${{ secrets.TF_VAR_server_name }}
+          TF_VAR_password: ${{ secrets.TF_VAR_password }}
+          TF_VAR_root_pass: ${{ secrets.TF_VAR_root_pass }}
+          TF_VAR_authorized_keys: ${{ secrets.TF_VAR_authorized_keys }}
+          LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+          TF_VAR_admin_ssh_ip: ${{ secrets.TF_VAR_admin_ssh_ip }}
         run: tofu destroy -auto-approve
