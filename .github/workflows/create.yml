@@ -85,3 +85,7 @@ jobs:
 
       - name: Status
         run: echo "This job's status is ${{ job.status }}."
+  
+  Apply:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
