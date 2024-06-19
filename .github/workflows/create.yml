@@ -101,8 +101,8 @@ jobs:
         with:
           name: tfstate
           path: |
-            /home/runner/work/linode_opentofu_gaming_server/linode_opentofu_gaming_server/tofu/.terraform.tfstate
-            /home/runner/work/linode_opentofu_gaming_server/linode_opentofu_gaming_server/tofu/.terraform.tfstate.backup
+            ./tofu/terraform.tfstate
+            ./tofu/terraform.tfstate.backup
 
       # # Extremely Expensive
       # - name: Full Path Listing
