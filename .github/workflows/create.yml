@@ -21,7 +21,7 @@ jobs:
           echo "The job was triggered by a ${{ github.event_name }} event."
           echo "The operating system this job is now running on is ${{ runner.os }}."
           echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-          ecno "The environment is ${{ runner.environment }}"
+          echo "The environment is ${{ runner.environment }}"
 
       - name: Check out repository code
         uses: actions/checkout@v4
