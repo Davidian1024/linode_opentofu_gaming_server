@@ -44,23 +44,24 @@ jobs:
         working-directory: ./tofu
         run: tofu init
 
-      - name: List Secrets
-        env:
-          TF_VAR_server_admin_steamid: ${{ secrets.TF_VAR_server_admin_steamid }}
-          TF_VAR_server_name: ${{ secrets.TF_VAR_server_name }}
-          TF_VAR_password: ${{ secrets.TF_VAR_password }}
-          TF_VAR_root_pass: ${{ secrets.TF_VAR_root_pass }}
-          TF_VAR_authorized_keys: ${{ secrets.TF_VAR_authorized_keys }}
-          LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
-          TF_VAR_admin_ssh_ip: ${{ secrets.TF_VAR_admin_ssh_ip }}
-        run: |
-          echo "TF_VAR_server_admin_steamid:" $TF_VAR_server_admin_steamid
-          echo "TF_VAR_server_name:" $TF_VAR_server_name
-          echo "TF_VAR_password:" $TF_VAR_password
-          echo "TF_VAR_root_pass:" $TF_VAR_root_pass
-          echo "TF_VAR_authorized_keys:" $TF_VAR_authorized_keys
-          echo "LINODE_TOKEN:" $LINODE_TOKEN
-          echo "TF_VAR_admin_ssh_ip:" $TF_VAR_admin_ssh_ip
+      # # Insecure
+      # - name: List Secrets
+      #   env:
+      #     TF_VAR_server_admin_steamid: ${{ secrets.TF_VAR_server_admin_steamid }}
+      #     TF_VAR_server_name: ${{ secrets.TF_VAR_server_name }}
+      #     TF_VAR_password: ${{ secrets.TF_VAR_password }}
+      #     TF_VAR_root_pass: ${{ secrets.TF_VAR_root_pass }}
+      #     TF_VAR_authorized_keys: ${{ secrets.TF_VAR_authorized_keys }}
+      #     LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
+      #     TF_VAR_admin_ssh_ip: ${{ secrets.TF_VAR_admin_ssh_ip }}
+      #   run: |
+      #     echo "TF_VAR_server_admin_steamid:" $TF_VAR_server_admin_steamid
+      #     echo "TF_VAR_server_name:" $TF_VAR_server_name
+      #     echo "TF_VAR_password:" $TF_VAR_password
+      #     echo "TF_VAR_root_pass:" $TF_VAR_root_pass
+      #     echo "TF_VAR_authorized_keys:" $TF_VAR_authorized_keys
+      #     echo "LINODE_TOKEN:" $LINODE_TOKEN
+      #     echo "TF_VAR_admin_ssh_ip:" $TF_VAR_admin_ssh_ip
 
       - name: GitHub Context Dump
         env:
@@ -84,12 +85,13 @@ jobs:
         with:
           name: tfstate
           path: |
-            ${{ github.workspace }}/tofu/.terraform.tfstate
-            ${{ github.workspace }}/tofu/.terraform.tfstate.backup
+            /home/runner/work/linode_opentofu_gaming_server/linode_opentofu_gaming_server/tofu/.terraform.tfstate
+            /home/runner/work/linode_opentofu_gaming_server/linode_opentofu_gaming_server/tofu/.terraform.tfstate.backup
 
-      - name: Full Path Listing
-        working-directory: /
-        run: tree
+      # # Extremely Expensive
+      # - name: Full Path Listing
+      #   working-directory: /
+      #   run: tree
 
       - name: Status
         run: echo "This job's status is ${{ job.status }}."
