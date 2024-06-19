@@ -93,4 +93,4 @@ jobs:
     
       - name: Destroy
         working-directory: ./tofu
-        run: tofu apply -destroy -auto-approve
+        run: tofu destroy -auto-approve
