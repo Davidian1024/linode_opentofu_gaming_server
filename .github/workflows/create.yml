@@ -1,5 +1,5 @@
-name: Create
-run-name: ${{ github.actor }} create
+name: Manage
+run-name: Manage
 
 on:
   workflow_dispatch:
