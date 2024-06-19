@@ -16,6 +16,11 @@ jobs:
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
+        with:
+          name: tfstate
+          path: |
+            ./tofu/terraform.tfstate
+            ./tofu/terraform.tfstate.backup
 
       - name: Report Header
         run: |
