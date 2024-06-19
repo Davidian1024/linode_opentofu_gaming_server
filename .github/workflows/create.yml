@@ -92,11 +92,8 @@ jobs:
           name: terraform.tfstate
           path: ./terraform.tfstate_temp
 
-      - name: ls
-        run: ls ./terraform.tfstate_temp
-
-      - name: Extract OpenTofu State
-        run: 7z x ./terraform.tfstate_temp/*
+      - name: Install OpenTofu State
+        run: mv ./terraform.tfstate_temp/terraform.tfstate ./tofu/terraform.tfstate
 
       - name: Destroy
         working-directory: ./tofu
