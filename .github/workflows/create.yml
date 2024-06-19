@@ -77,9 +77,9 @@ jobs:
     steps:
       - name: Download OpenTofu State
         uses: actions/download-artifact@v4
-          with:
-            path:
-              ./tofu
+        with:
+          path:
+            ./tofu
 
       - name: Install OpenTofu
         run: |
