@@ -1,5 +1,6 @@
 name: Create
 run-name: ${{ github.actor }} create
+environment: prod
 
 on:
   workflow_dispatch:
