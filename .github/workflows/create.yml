@@ -15,7 +15,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Clone Repository
-      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
+        run: echo "The ${{ github.repository }} repository has been cloned to the runner."
       - name: Repository Listing
         run: |
           ls ${{ github.workspace }}
