@@ -27,6 +27,8 @@ jobs:
 
       - name: Download OpenTofu State
         uses: actions/download-artifact@v4
+        with:
+          name: tfstate
 
       - name: Report Header
         run: |
