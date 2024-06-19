@@ -5,41 +5,40 @@ jobs:
   Create:
     runs-on: ubuntu-latest
     steps:
-      - name: Download all workflow run artifacts
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Report Header
+        run: |
+          echo "The job was triggered by a ${{ github.event_name }} event."
+          echo "The operating system this job is now running on is ${{ runner.os }}."
+          echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Clone Repository
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+      - name: Repository Listing
         run: |
           ls ${{ github.workspace }}
-      - run: echo "This job's status is ${{ job.status }}."
-      - run: |
-          # Download the installer script:
+      - name: Install OpenTofu
+        run: |
           curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh
-          # Alternatively: wget --secure-protocol=TLSv1_2 --https-only https://get.opentofu.org/install-opentofu.sh -O install-opentofu.sh
-
-          # Grant execution permissions:
           chmod +x install-opentofu.sh
-
-          # Please inspect the downloaded script at this point.
-
-          # Run the installer:
           ./install-opentofu.sh --install-method standalone
-
-          # Remove the installer:
-          rm install-opentofu.sh
       - name: Initialize
         working-directory: ./tofu
         run: tofu init
-      - name: Archive production artifacts
+      - name: Plan Deployment
+        working-directory: ./tofu
+        run: tofu plan
+      - name: Upload OpenTofu State
         uses: actions/upload-artifact@v4
         with:
           name: tfstate
           path: |
             ${{ github.workspace }}/tofu/.terraform.tfstate
             ${{ github.workspace }}/tofu/.terraform.tfstate.backup
+      - name: Full Path Listing
+        working-directory: /
+        run: tree
+      - name: Status
+        run: echo "This job's status is ${{ job.status }}."
