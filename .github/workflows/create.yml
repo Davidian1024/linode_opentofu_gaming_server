@@ -62,10 +62,8 @@ jobs:
       - name: Upload OpenTofu State
         uses: actions/upload-artifact@v4
         with:
-          name: tfstate
-          path: |
-            ./tofu/terraform.tfstate
-            ./tofu/terraform.tfstate.backup
+          name: terraform.tfstate
+          path: ./tofu/terraform.tfstate
 
       - name: Status
         run: echo "This job's status is ${{ job.status }}."
