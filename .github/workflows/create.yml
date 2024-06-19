@@ -89,3 +89,6 @@ jobs:
   Apply:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    steps:
+      - name: placeholder
+        run: echo "placeholder"
