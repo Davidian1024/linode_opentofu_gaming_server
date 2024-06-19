@@ -1,6 +1,5 @@
 name: Create
 run-name: ${{ github.actor }} create
-environment: prod
 
 on:
   workflow_dispatch:
@@ -13,6 +12,7 @@ on:
 jobs:
   Create:
     runs-on: ubuntu-latest
+    environment: ${{ events.input.environment }}
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
