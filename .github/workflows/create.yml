@@ -81,6 +81,9 @@ jobs:
           chmod +x install-opentofu.sh
           ./install-opentofu.sh --install-method standalone
 
+      - name: Repository Code Checkout
+        uses: actions/checkout@v4
+
       - name: Initialize
         working-directory: ./tofu
         run: tofu init
