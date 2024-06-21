@@ -2,7 +2,7 @@ resource "linode_instance" "gaming_server" {
   label           = "gaming_server"
   image           = "linode/ubuntu24.04"
   region          = "us-ord"
-  type            = "g6-standard-1"
+  type            = "g6-standard-2"
   authorized_keys = [var.authorized_keys]
   root_pass       = var.root_pass
 
