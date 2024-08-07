@@ -35,6 +35,9 @@ write_files:
       cp /tmp/ownerswhitelist.txt /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/
       chown game_service_account:game_service_account /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/dedicatedserver.cfg
       chown game_service_account:game_service_account /home/game_service_account/.wine/drive_c/users/game_service_account/AppData/LocalLow/Endnight/SonsOfTheForestDS/ownerswhitelist.txt
+      su game_service_account -c "/usr/bin/mkdir -p /home/game_service_account/bin"
+      su game_service_account -c "wget -P /home/game_service_account/bin/ https://github.com/glotlabs/gdrive/releases/download/3.9.1/gdrive_linux-x64.tar.gz"
+      su game_service_account -c "tar -C /home/game_service_account/bin/ -xzf /home/game_service_account/bin/gdrive_linux-x64.tar.gz"
       echo "custom_provisioning_script.bash end"
       # Script body end
 
